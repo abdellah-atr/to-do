@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/style.css">
+  <title>to do list</title>
+</head>
+<body>
+
+  <h1>TO-DO LIST</h1>
+  <h2>{{ today }}</h2>
+  <div class="add-task"> 
+      <form action="/add" method="POST">
+        <input type="text" name="task" placeholder="Add a task" required>
+        <input type="date" name="date">
+        <button type="submit">Add</button>
+  </form>
+  </div>
+
+    {% if tasks %}
+    
+        {% for item in tasks %}
+            <div class="task-item"                         {% if item.done == True %}
+                            style="background-color: rgb(161, 222, 249);color: black;"
+                        {% else %}
+                        style="background-color: rgb(242, 176, 138);color: black;"
+                        {% endif %}>
+                      
+          
+                <p>{{ item.task }} - Due: {{ item.date }}</p>
+                <form action="/action" method="POST">
+                    <input type="hidden" name="task_id" value="{{ item.id }}">
+                    <button type="submit" name="action" value="complete" 
+                        {% if item.done == True %}
+                            style="background-color: rgb(0, 255, 98);color: black;"
+                        {% endif %}>
+                        {% if item.done == False  %}
+                        complete
+                        {% else %}
+                        completed
+                        {% endif %}
+                    </button>
+                    <button type="submit" name="action" value="delete">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        {% endfor %}
+    
+    {% endif %}
+
+
+
+</body>
+</html>
